@@ -88,10 +88,10 @@ ChangedAddressError = "Meet an error, when do Test1 on Changed IP and Port"
 
 
 def _initialize():
-    items = dictAttrToVal.items()
+    items = list(dictAttrToVal.items())
     for i in range(len(items)):
         dictValToAttr.update({items[i][1]: items[i][0]})
-    items = dictMsgTypeToVal.items()
+    items = list(dictMsgTypeToVal.items())
     for i in range(len(items)):
         dictValToMsgType.update({items[i][1]: items[i][0]})
 
@@ -133,7 +133,7 @@ def stun_test(sock, host, port, source_ip, source_port, send_data=""):
                     retVal['Resp'] = False
                     return retVal
         msgtype = binascii.b2a_hex(buf[0:2])
-        bind_resp_msg = dictValToMsgType[msgtype] == "BindResponseMsg"
+        bind_resp_msg = dictValToMsgType[int(msgtype)] == "BindResponseMsg"
         tranid_match = tranid.upper() == binascii.b2a_hex(buf[4:20]).upper()
         if bind_resp_msg and tranid_match:
             recvCorr = True
