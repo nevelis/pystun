@@ -88,12 +88,10 @@ ChangedAddressError = "Meet an error, when do Test1 on Changed IP and Port"
 
 
 def _initialize():
-    items = list(dictAttrToVal.items())
-    for i in range(len(items)):
-        dictValToAttr.update({items[i][1]: items[i][0]})
-    items = list(dictMsgTypeToVal.items())
-    for i in range(len(items)):
-        dictValToMsgType.update({items[i][1]: items[i][0]})
+    for attr, value in dictAttrToVal.items():
+        dictValToAttr[value] = attr
+    for msg_type, value in dictMsgTypeToVal.items():
+        dictValToMsgType[value] = msg_type
 
 
 def gen_tran_id():
@@ -191,9 +189,9 @@ def get_nat_type(s, source_ip, source_port, stun_host=None, stun_port=3478):
         ret = stun_test(s, stun_host, port, source_ip, source_port)
         resp = ret['Resp']
     else:
-        for stun_host in stun_servers_list:
-            log.debug('Trying STUN host: %s', stun_host)
-            ret = stun_test(s, stun_host, port, source_ip, source_port)
+        for stun_server in stun_servers_list:
+            log.debug('Trying STUN host: %s', stun_server)
+            ret = stun_test(s, stun_server, port, source_ip, source_port)
             resp = ret['Resp']
             if resp:
                 break
